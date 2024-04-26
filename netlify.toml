@@ -2,3 +2,7 @@
   from = "/*"
   to = "/"
   status = 200
+
+[[redirects]]
+  from = "https://enka.network/api/"
+  to = "https://thingproxy.freeboard.io/fetch/https://enka.network/api/"
