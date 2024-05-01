@@ -18,23 +18,23 @@ import {
 } from "@mui/material";
 import { useCallback, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import ArtifactCardNano from "../../../../../../libs/GO-files/Components/Artifact/ArtifactCardNano";
-import CardLight from "../../../../../../libs/GO-files/Components/Card/CardLight";
+import ArtifactCardNano from "../../../libs/GO-files/Components/Artifact/ArtifactCardNano";
+import CardLight from "../../../libs/GO-files/Components/Card/CardLight";
 import CharacterCardPico, {
   BlankCharacterCardPico,
-} from "../../../../../../libs/GO-files/Components/Character/CharacterCardPico";
-import StatDisplayComponent from "../../../../../../libs/GO-files/Components/Character/StatDisplayComponent";
-import ImgIcon from "../../../../../../libs/GO-files/Components/Image/ImgIcon";
+} from "../../../libs/GO-files/Components/Character/CharacterCardPico";
+import StatDisplayComponent from "../../../libs/GO-files/Components/Character/StatDisplayComponent";
+import ImgIcon from "../../../libs/GO-files/Components/Image/ImgIcon";
 import { SqBadge } from "genshin-optimizer/ui";
 import { StarsDisplay } from "genshin-optimizer/ui";
-import WeaponCardNano from "../../../../../../libs/GO-files/Components/Weapon/WeaponCardNano";
-import { CharacterContext } from "../../../../../../contexts/CharacterContext";
-import { DataContext } from "../../../../../../contexts/DataContext";
-import type { TalentSheetElementKey } from "../../../../../../libs/GO-files/Data/Characters/ICharacterSheet";
-import { uiInput as input } from "../../../../../../libs/GO-files/Formula";
-import { ElementIcon } from "../../../../../../libs/GO-files/KeyMap/StatIcon";
-import useCharacterReducer from "../../../../../../libs/GO-files/ReactHooks/useCharacterReducer";
-import { range } from "../../../../../../libs/GO-files/Util/Util";
+import WeaponCardNano from "../../../libs/GO-files/Components/Weapon/WeaponCardNano";
+import { CharacterContext } from "../../../contexts/CharacterContext";
+import { DataContext } from "../../../contexts/DataContext";
+import type { TalentSheetElementKey } from "../../../libs/GO-files/Data/Characters/ICharacterSheet";
+import { uiInput as input } from "../../../libs/GO-files/Formula";
+import { ElementIcon } from "../../../libs/GO-files/KeyMap/StatIcon";
+import useCharacterReducer from "../../../libs/GO-files/ReactHooks/useCharacterReducer";
+import { range } from "../../../libs/GO-files/Util/Util";
 import EquipmentSection from "./EquipmentSection";
 
 export default function TabOverview() {
@@ -137,7 +137,9 @@ function CharacterProfileCard() {
                 <Grid item xs={4} key={tKey}>
                   <Badge
                     badgeContent={tlvl[tKey as keyof typeof tlvl]}
-                    color={tBoost[tKey as keyof typeof tlvl] ? "info" : "secondary"}
+                    color={
+                      tBoost[tKey as keyof typeof tlvl] ? "info" : "secondary"
+                    }
                     overlap="circular"
                     anchorOrigin={{
                       vertical: "bottom",
@@ -217,8 +219,7 @@ function CharacterProfileCard() {
   );
 }
 
-
-function CoverArea({ src, level, ascension }:any) {
+function CoverArea({ src, level, ascension }: any) {
   const { characterSheet } = useContext(CharacterContext);
 
   return (

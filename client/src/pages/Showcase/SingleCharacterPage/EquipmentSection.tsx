@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useBoolState } from "genshin-optimizer/react-util";
-import {
-  allArtifactSlotKeys,
-  allSubstatKeys,
-} from "genshin-optimizer/consts";
+import { allArtifactSlotKeys, allSubstatKeys } from "genshin-optimizer/consts";
 import { useCharMeta, useDatabase } from "genshin-optimizer/db-ui";
-import { Settings} from "@mui/icons-material";
+import { Settings } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -27,22 +24,22 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import SetEffectDisplay from "../../../../../../libs/GO-files/Components/Artifact/SetEffectDisplay";
-import SubstatToggle from "../../../../../../libs/GO-files/Components/Artifact/SubstatToggle";
-import CardDark from "../../../../../../libs/GO-files/Components/Card/CardDark";
-import CardLight from "../../../../../../libs/GO-files/Components/Card/CardLight";
-import DocumentDisplay from "../../../../../../libs/GO-files/Components/DocumentDisplay";
+import SetEffectDisplay from "../../../libs/GO-files/Components/Artifact/SetEffectDisplay";
+import SubstatToggle from "../../../libs/GO-files/Components/Artifact/SubstatToggle";
+import CardDark from "../../../libs/GO-files/Components/Card/CardDark";
+import CardLight from "../../../libs/GO-files/Components/Card/CardLight";
+import DocumentDisplay from "../../../libs/GO-files/Components/DocumentDisplay";
 import {
   BasicFieldDisplay,
   FieldDisplayList,
-} from "../../../../../../libs/GO-files/Components/FieldDisplay";
-import ModalWrapper from "../../../../../../libs/GO-files/Components/ModalWrapper";
-import PercentBadge from "../../../../../../libs/GO-files/Components/PercentBadge";
-import { CharacterContext } from "../../../../../../contexts/CharacterContext";
-import { DataContext } from "../../../../../../contexts/DataContext";
-import { dataSetEffects } from "../../../../../../libs/GO-files/Data/Artifacts";
-import Artifact from "../../../../../../libs/GO-files/Data/Artifacts/Artifact";
-import type { IFieldDisplay } from "../../../../../../libs/GO-files/Types/fieldDisplay";
+} from "../../../libs/GO-files/Components/FieldDisplay";
+import ModalWrapper from "../../../libs/GO-files/Components/ModalWrapper";
+import PercentBadge from "../../../libs/GO-files/Components/PercentBadge";
+import { CharacterContext } from "../../../contexts/CharacterContext";
+import { DataContext } from "../../../contexts/DataContext";
+import { dataSetEffects } from "../../../libs/GO-files/Data/Artifacts";
+import Artifact from "../../../libs/GO-files/Data/Artifacts/Artifact";
+import type { IFieldDisplay } from "../../../libs/GO-files/Types/fieldDisplay";
 export default function EquipmentSection() {
   const {
     character: { equippedWeapon, key: characterKey },

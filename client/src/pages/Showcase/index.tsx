@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { PlayerData, Wrapper } from "../../enka";
-import { generateGoodData } from "../../tools/genshin-optimizer/libs/good/goodDataMaker";
+import { generateGoodData } from "genshin-optimizer/good/goodDataMaker";
 import { CacheHandler } from "../../enka/handlers/CacheHandler";
 import { useDataStore } from "../../utils/DataStore";
-import { CharacterContent } from "./CharactersPage";
+import { CharacterContent } from "./ShowcaseList";
 import {
   Button,
   IconButton,
@@ -103,9 +103,9 @@ export default function Showcase() {
           color="text.secondary"
           sx={{ alignSelf: "center", width: { sm: "100%", md: "80%" } }}
         >
-          Genshin Character showcase to view your own in-game
-          characters with detailed information. Including damage numbers and
-          build guides too..!!
+          Genshin Character showcase to view your own in-game characters with
+          detailed information. Including damage numbers and build guides
+          too..!!
         </Typography>
         <Stack
           direction={{ xs: "column", sm: "row" }}

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { range } from "genshin-optimizer/util";
 import { characterAsset } from "genshin-optimizer/assets";
 import type {
   ArtifactSlotKey,
@@ -26,28 +25,25 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
+import { ConditionalWrapper } from "genshin-optimizer/ui";
 import { Suspense, useCallback, useContext, useMemo } from "react";
-import type { CharacterContextObj } from "../../../../contexts/CharacterContext";
-import { CharacterContext } from "../../../../contexts/CharacterContext";
-import type { dataContextObj } from "../../../../contexts/DataContext";
-import { DataContext } from "../../../../contexts/DataContext";
-import { getCharSheet } from "../../Data/Characters";
-import { uiInput as input } from "../../Formula";
-import useCharacterReducer from "../../ReactHooks/useCharacterReducer";
-import useTeamData from "../../ReactHooks/useTeamData";
-import type { RollColorKey } from "../../Types/consts";
-import { iconAsset } from "../../Util/AssetUtil";
-import ArtifactCardPico from "../Artifact/ArtifactCardPico";
-import CardLight from "../Card/CardLight";
+import type { CharacterContextObj } from "../../contexts/CharacterContext";
+import { CharacterContext } from "../../contexts/CharacterContext";
+import type { dataContextObj } from "../../contexts/DataContext";
+import { DataContext } from "../../contexts/DataContext";
+import { getCharSheet } from "../../libs/GO-files/Data/Characters";
+import { uiInput as input } from "../../libs/GO-files/Formula";
+import useCharacterReducer from "../../libs/GO-files/ReactHooks/useCharacterReducer";
+import useTeamData from "../../libs/GO-files/ReactHooks/useTeamData";
+import type { RollColorKey } from "../../libs/GO-files/Types/consts";
+import { iconAsset } from "../../libs/GO-files/Util/AssetUtil";
+import ArtifactCardPico from "../../libs/GO-files/Components/Artifact/ArtifactCardPico";
+import CardLight from "../../libs/GO-files/Components/Card/CardLight";
 import { ColorText } from "genshin-optimizer/ui";
-
-import ConditionalWrapper from "../ConditionalWrapper";
-import { NodeFieldDisplay } from "../FieldDisplay";
+import { NodeFieldDisplay } from "../../libs/GO-files/Components/FieldDisplay";
 import { SqBadge } from "genshin-optimizer/ui";
-import { StarsDisplay } from "../StarDisplay";
-import WeaponCardPico from "../Weapon/WeaponCardPico";
-import WeaponFullCard from "../Weapon/WeaponFullCard";
-import CharacterCardPico, { BlankCharacterCardPico } from "./CharacterCardPico";
+import { StarsDisplay } from "../../libs/GO-files/Components/StarDisplay";
+import WeaponCardPico from "../../libs/GO-files/Components/Weapon/WeaponCardPico";
 type CharacterCardProps = {
   characterKey: CharacterKey;
   onClick?: (characterKey: CharacterKey) => void;
@@ -67,10 +63,8 @@ export default function CharacterCard({
   characterChildren,
   onClick,
   onClickHeader,
-  onClickTeammate,
   footer,
   hideStats,
-  isTeammateCard,
 }: CharacterCardProps) {
   const database = useDatabase();
   const teamData = useTeamData(characterKey);
@@ -148,23 +142,19 @@ export default function CharacterCard({
           </IconButton>
         </Box>
         <ConditionalWrapper condition={!!onClick} wrapper={actionWrapperFunc}>
-          {character && dataContextObj && characterContextObj ? (
+          {character && dataContextObj && characterContextObj && (
             <ExistingCharacterCardContent
               characterContextObj={characterContextObj}
               dataContextObj={dataContextObj}
               characterKey={characterKey}
               onClick={onClick}
               onClickHeader={onClickHeader}
-              isTeammateCard={isTeammateCard}
               character={character}
-              onClickTeammate={onClickTeammate}
               hideStats={hideStats}
               weaponChildren={weaponChildren}
               artifactChildren={artifactChildren}
               characterChildren={characterChildren}
             />
-          ) : (
-            <NewCharacterCardContent characterKey={characterKey} />
           )}
         </ConditionalWrapper>
         {footer}
@@ -193,9 +183,7 @@ function ExistingCharacterCardContent({
   characterKey,
   onClick,
   onClickHeader,
-  isTeammateCard,
   character,
-  onClickTeammate,
   hideStats,
   weaponChildren,
   artifactChildren,
@@ -221,60 +209,19 @@ function ExistingCharacterCardContent({
           })}
         >
           <Artifacts />
-          {!isTeammateCard && (
-            <Grid container columns={4} spacing={0.75}>
-              <Grid item xs={1} height="100%">
-                <WeaponCardPico weaponId={character.equippedWeapon} />
-              </Grid>
-              {range(0, 2).map((i) => (
-                <Grid key={i} item xs={1} height="100%">
-                  {character.team[i] ? (
-                    <CharacterCardPico
-                      simpleTooltip={hideStats}
-                      characterKey={character.team[i] as CharacterKey}
-                      onClick={!onClick ? onClickTeammate : undefined}
-                    />
-                  ) : (
-                    <BlankCharacterCardPico index={i} />
-                  )}
-                </Grid>
-              ))}
+
+          <Grid container columns={4} spacing={0.75}>
+            <Grid item xs={1} height="100%">
+              <WeaponCardPico weaponId={character.equippedWeapon} />
             </Grid>
-          )}
-          {isTeammateCard && (
-            <WeaponFullCard weaponId={character.equippedWeapon} />
-          )}
-          {!isTeammateCard && !hideStats && <Stats />}
+          </Grid>
+          <Stats />
           {weaponChildren}
           {artifactChildren}
           {characterChildren}
         </CardContent>
       </DataContext.Provider>
     </CharacterContext.Provider>
-  );
-}
-
-function NewCharacterCardContent({
-  characterKey,
-}: {
-  characterKey: CharacterKey;
-}) {
-  return (
-    <>
-      <Header characterKey={characterKey}>
-        <HeaderContentNew characterKey={characterKey} />
-      </Header>
-      <CardContent
-        sx={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          gap: 1,
-          flexGrow: 1,
-          height: "100%",
-        }}
-      ></CardContent>
-    </>
   );
 }
 
@@ -421,31 +368,6 @@ function HeaderContent() {
       </Box>
       <Typography variant="h6" lineHeight={1}>
         <StarsDisplay stars={characterSheet.rarity} colored inline />
-      </Typography>
-    </>
-  );
-}
-
-function HeaderContentNew({ characterKey }: { characterKey: CharacterKey }) {
-  const { gender } = useDBMeta();
-  const sheet = getCharSheet(characterKey, gender);
-
-  if (!sheet) return null;
-  return (
-    <>
-      <Chip
-        label={<Typography variant="subtitle1">{sheet.name}</Typography>}
-        size="small"
-        color={sheet.elementKey}
-        sx={{ opacity: 0.85 }}
-      />
-      <Box mt={1}>
-        <Typography variant="h4">
-          <SqBadge>NEW</SqBadge>
-        </Typography>
-      </Box>
-      <Typography mt={1.5}>
-        <StarsDisplay stars={sheet.rarity} colored />
       </Typography>
     </>
   );

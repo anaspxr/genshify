@@ -2,8 +2,8 @@
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import Beginner from "./pages/Beginner/Beginner";
-import Showcase from "./pages/Showcase/Showcase";
-import CharacterDisplay from "./pages/Showcase/CharactersPage/CharacterDisplay";
+import Showcase from "./pages/Showcase";
+import CharacterDisplay from "./pages/Showcase/SingleCharacterPage";
 import { alpha } from "@mui/material";
 
 import { Container, Grid, Skeleton, CssBaseline } from "@mui/material";
@@ -66,7 +66,7 @@ export default function App() {
           element={
             <ThemeProviderComponent>
               <CssBaseline />
-              <ScrollToHashElement/>
+              <ScrollToHashElement />
               <SnowContext.Provider value={SnowContextObj}>
                 <DatabaseContext.Provider value={dbContextObj}>
                   <ErrorBoundary>
@@ -79,7 +79,7 @@ export default function App() {
                         width: "100%",
                         backgroundImage:
                           theme.palette.mode !== "dark"
-                            ?`linear-gradient(180deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`
+                            ? `linear-gradient(180deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`
                             : `linear-gradient(#02294F, ${alpha(
                                 "#090E10",
                                 0.0

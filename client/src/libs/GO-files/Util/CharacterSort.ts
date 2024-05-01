@@ -26,7 +26,6 @@ export type CharacterSortKey = (typeof characterSortKeys)[number];
 
 export function characterSortConfigs(
   database: ArtCharDatabase,
-  silly: boolean
 ): SortConfigs<CharacterSortKey, CharacterKey> {
   return {
     new: (ck) => (database.chars.get(ck as CharacterKey) ? 0 : 1),
@@ -34,7 +33,7 @@ export function characterSortConfigs(
       i18n
         .t(
           `${
-            silly ? "sillyWisher_charNames" : "charNames_gen" // Should already be loaded by caller
+            "charNames_gen" // Should already be loaded by caller
           }:${charKeyToLocGenderedCharKey(ck, database.gender)}`
         )
         .toString(),
@@ -62,7 +61,6 @@ export type CharacterFilterConfigs = FilterConfigs<
 >;
 export function characterFilterConfigs(
   database: ArtCharDatabase,
-  silly: boolean
 ): CharacterFilterConfigs {
   return {
     element: (ck, filter) => filter.includes(getCharEle(ck)),
@@ -75,18 +73,11 @@ export function characterFilterConfigs(
       i18n
         .t(
           `${
-            silly ? "sillyWisher_charNames" : "charNames_gen" // Should already be loaded by caller
+            "charNames_gen" // Should already be loaded by caller
           }:${charKeyToLocGenderedCharKey(ck, database.gender)}`
         )
         .toLowerCase()
-        .includes(filter.toLowerCase()) ||
-      (silly &&
-        i18n
-          .t(
-            `charNames_gen:${charKeyToLocGenderedCharKey(ck, database.gender)}`
-          )
-          .toLowerCase()
-          .includes(filter.toLowerCase())),
+        .includes(filter.toLowerCase()),
     new: (ck, filter) =>
       filter === undefined ||
       filter === (database.chars.get(ck as CharacterKey) ? "no" : "yes"),
