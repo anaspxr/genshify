@@ -46,11 +46,6 @@ const home: ITab = {
   name: "Home",
 };
 
-const explore: ITab = {
-  to: "/#explore",
-  value: "explore",
-  name: "Explore",
-};
 const banner: ITab = {
   to: "/#banner",
   value: "banner",
@@ -61,10 +56,10 @@ const events: ITab = {
   value: "events",
   name: "Events",
 };
-const tips: ITab = {
-  to: "/#tips",
-  value: "tips",
-  name: "Tips",
+const guides: ITab = {
+  to: "/#guides",
+  value: "guides",
+  name: "Guides",
 };
 const showcase: ITab = {
   to: "/showcase",
@@ -72,7 +67,7 @@ const showcase: ITab = {
   name: "Showcase",
 };
 
-const content = [home, explore, banner, events, tips, showcase] as const;
+const content = [home, guides, banner, events, showcase] as const;
 export default function Header({ anchor }: { anchor: string }) {
   return (
     <Suspense fallback={<Skeleton variant="rectangular" height={56} />}>
@@ -123,10 +118,6 @@ function Settings() {
       value: "geo",
       label: "Geo Theme",
     },
-    dark: {
-      value: "dark",
-      label: "Dark Theme",
-    },
   };
   const [value, setValue] = useState(
     themeOptions[Object.keys(themeOptions)[swiperIndex]].value
@@ -139,7 +130,11 @@ function Settings() {
     changeTheme(selectedTheme.theme, selectedTheme.index);
   };
   return (
-    <div>
+    <div
+      style={{
+        maxWidth: "200px",
+      }}
+    >
       <FormControl
         sx={{
           padding: "10px",
@@ -153,6 +148,11 @@ function Settings() {
           value={value}
           onChange={handleChange}
         >
+          <FormControlLabel
+            value="elemental"
+            control={<Radio />}
+            label="Elemental"
+          />
           {Object.values(themeOptions).map((option) => (
             <FormControlLabel
               key={option.value}
@@ -182,7 +182,7 @@ function HeaderContent({ anchor }: { anchor: string }) {
   } = useMatch({ path: "/:currentTab", end: false }) ?? {
     params: { currentTab: "home" },
   };
-  
+
   //? Drawer for settings
   const [open, setOpen] = useState(false);
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -204,7 +204,7 @@ function HeaderContent({ anchor }: { anchor: string }) {
       });
       setOpen(false);
     }
-  };  
+  };
 
   return (
     <Box>
@@ -346,7 +346,11 @@ function HeaderContent({ anchor }: { anchor: string }) {
                 keepMounted: true, // Better open performance on mobile.
               }}
             >
-              <List>
+              <List
+                sx={{
+                  maxWidth: "10px",
+                }}
+              >
                 {content.map(({ to, value, name }) => {
                   return (
                     <ListItemButton

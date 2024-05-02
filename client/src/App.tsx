@@ -1,5 +1,5 @@
 //import components
-import Home from "./pages/Home/Home";
+import Home from "./pages/Home";
 import About from "./pages/About/About";
 import Beginner from "./pages/Beginner/Beginner";
 import Showcase from "./pages/Showcase";
